@@ -18,7 +18,7 @@ export class ProductsService {
   //     'Authorization': 'Bearer '+this.kcService.kc.token
   //   }) 
   // } ====> on le remplacer par interceptor
-  url = "http://localhost:8083/"
+  url = "http://localhost:8083"
   public getProducts(){
     return this.httpClient.get(this.url+"/api/product/all")
   }

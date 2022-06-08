@@ -10,7 +10,7 @@ import { KeycloakSecurityService } from './keycloak-security.service';
   providedIn: 'root'
 })
 export class CustomerService {
-  url = "http://localhost:8082/"
+  url = "http://localhost:8082"
   constructor(private httpClient:HttpClient,private kcService: KeycloakSecurityService) { }
 
   public saveInoice(billing:any){
