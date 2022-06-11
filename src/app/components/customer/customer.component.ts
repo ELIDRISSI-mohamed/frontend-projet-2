@@ -6,6 +6,7 @@ import { ProductsService } from 'src/app/services/products.service';
 import { ProductModel } from '../products/ProductModel';
 import { BillingModel } from './BillingModel';
 import { CustomerService } from 'src/app/services/customer.service';
+import { ProductQteModel } from '../products/ProductQteModel';
 
 @Component({
   selector: 'app-customer',
@@ -22,7 +23,7 @@ export class CustomerComponent implements OnInit {
   qteDemande:any=0
   prixTotal:any=0
   allPrix:any=[]
-  saveProduct:any
+  newProducts:any=[]
   listProductsSelect : any = [];
 
   constructor( private router: Router, private ngxService: NgxUiLoaderService, private customerService: CustomerService, public kcService : KeycloakSecurityService, private productsService: ProductsService) { }
@@ -53,18 +54,20 @@ export class CustomerComponent implements OnInit {
       this.hideFormError = false;
       this.formMessage = "Erreur remplissez tout les champs"
       return ;
-    } else if(this.qteDemande>this.product.prix){
+    } else if(this.qteDemande>this.product.qte || this.qteDemande==0){
       this.hideFormError = false;
       this.formMessage = "Vétifier la quantité"
       return
     }
+    this.ngxService.start()
     this.product.prixTotal = this.prixTotal
     this.product.qteDemande = this.qteDemande
     this.listProductsSelect.push(this.product)
-
+    console.log(this.listProductsSelect)
     this.product = new ProductModel()
     this.prixTotal=0
     this.qteDemande=0
+    this.ngxService.stop()
   }
   onCancel(){
   }
@@ -73,26 +76,30 @@ export class CustomerComponent implements OnInit {
       this.listProductsSelect.splice(index, 1);
     }
   }
-  onSendCommande(){
+  onSendCommande  = async () => {
+    this.ngxService.start()
+    console.log(this.listProductsSelect)
+    localStorage.setItem('productsSelected', JSON.stringify(this.listProductsSelect));
     let ammount = 0
     for(let i=0;i<this.listProductsSelect.length;i++){
       ammount += this.listProductsSelect[i].prix*this.listProductsSelect[i].qteDemande
+      this.newProducts.push(new ProductQteModel(this.listProductsSelect[i].id, this.listProductsSelect[i].qteDemande))
     }
     this.billing.amount=ammount
-    this.billing.nom=this.kcService.kc.tokenParsed.preferred_username
-    
-    for(let i=0;i<this.listProductsSelect.length;i++){
-      this.productsService.getProduct(this.listProductsSelect[i].libele)
-        .subscribe(res=>{
-          this.saveProduct = res
-          this.saveProduct.qte -= this.listProductsSelect[i].qteDemande 
-          this.productsService.updateProduct(this.saveProduct)
-        })
+    this.billing.name=this.kcService.kc.tokenParsed.preferred_username
+    for(let i=0;i<this.newProducts.length;i++){
+      await this.productsService.updateProductQte(this.newProducts[i]).subscribe(async (res:any)=>{
+        console.log(res)
+      });
     }
+    console.log(this.billing)
     this.customerService.saveInoice(this.billing)
       .subscribe(res=>{
         console.log(res)
       }, err=> console.log(err))
+    this.listProductsSelect = []
+    this.ngxService.stop()
+    this.router.navigate(['/facture']);   
   }
   isCustomerManager(){
     return this.kcService.kc.hasRealmRole('ROLE_CUSTOMER_MANAGER')

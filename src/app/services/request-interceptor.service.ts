@@ -16,7 +16,7 @@ export class RequestInterceptorService implements HttpInterceptor{
     let request  = req.clone({
       setHeaders:{
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+this.kcService.kc.token
+        Authorization: 'Bearer '+this.kcService.kc.token
       }
     })
     return next.handle(request)

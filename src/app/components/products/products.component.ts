@@ -58,7 +58,7 @@ export class ProductsComponent implements OnInit {
       this.productsService.saveProduct(this.p).subscribe(res=>{
         if(res){
           this.hideFormOk = false
-          this.formMessage = "Bien modifié"
+          this.formMessage = "BIEN AJOUTE"
         }
       },err =>{
         console.log(err);
@@ -69,7 +69,7 @@ export class ProductsComponent implements OnInit {
       this.productsService.updateProduct(this.p).subscribe(res=>{
         if(res){
           this.hideFormOk = false
-          this.formMessage = "Bien modifié"
+          this.formMessage = "BIEN"
         }
       },err =>{
         console.log(err);

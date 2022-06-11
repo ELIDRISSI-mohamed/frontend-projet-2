@@ -18,6 +18,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { IndexComponent } from './components/index/index.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { CustomerComponent } from './components/customer/customer.component';
+import { FactureComponent } from './components/facture/facture.component';
+import { CardsFactureComponent } from './components/cards-facture/cards-facture.component';
 
 
 export function kcFactory(kcSerurity:KeycloakSecurityService){
@@ -33,7 +35,9 @@ export function kcFactory(kcSerurity:KeycloakSecurityService){
     SidebarComponent,
     IndexComponent,
     ErrorPageComponent,
-    CustomerComponent
+    CustomerComponent,
+    FactureComponent,
+    CardsFactureComponent
   ],
   imports: [
     BrowserModule,

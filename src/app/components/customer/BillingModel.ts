@@ -1,9 +1,9 @@
 export class BillingModel {
     public amount?: number;
-    public nom?: string;
+    public name?: string;
 
-    constructor(amount?:number, nom?:string){
+    constructor(amount?:number, name?:string){
         this.amount = amount
-        this.nom = nom
+        this.name = name
     }
 }
