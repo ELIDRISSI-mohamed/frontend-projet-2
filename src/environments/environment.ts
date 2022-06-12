@@ -6,7 +6,7 @@ export const environment = {
   production: false
 };
 
-export const springUrl = "http://localhost:8086/";
+export const springUrl = "http://localhost:8085/";
 
 
 /*

@@ -19,23 +19,23 @@ export class ProductsService {
   //     'Authorization': 'Bearer '+this.kcService.kc.token
   //   }) 
   // } ====> on le remplacer par interceptor
-  url = "http://localhost:8083"
+
   public getProducts(){
-    return this.httpClient.get(this.url+"/api/product/all")
+    return this.httpClient.get(springUrl+"PRODUCT-SERVICE/api/product/all")
   }
   public getProduct(libele:string){
-    return this.httpClient.get(this.url+"/api/product/"+libele)
+    return this.httpClient.get(springUrl+"PRODUCT-SERVICE/api/product/"+libele)
   }
   public saveProduct(product:ProductModel){
-    return this.httpClient.post(this.url+"/api/product/save", product)
+    return this.httpClient.post(springUrl+"PRODUCT-SERVICE/api/product/save", product)
   }
   public updateProduct(product:ProductModel){
-    return this.httpClient.post(this.url+"/api/product/update", product)
+    return this.httpClient.post(springUrl+"PRODUCT-SERVICE/api/product/update", product)
   }
   public updateProductQte(productQte:ProductQteModel){
-    return this.httpClient.post(this.url+"/api/product/updateQte", productQte)
+    return this.httpClient.post(springUrl+"PRODUCT-SERVICE/api/product/updateQte", productQte)
   }
   public deleteProduct(index:any){
-    return this.httpClient.delete(this.url+"/api/product/delete/"+index)
+    return this.httpClient.delete(springUrl+"PRODUCT-SERVICE/api/product/delete/"+index)
   }
 }
