@@ -11,15 +11,22 @@ import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
-import { ProductsComponent } from './components/products/products.component';
-import { SuppliersComponent } from './components/suppliers/suppliers.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { IndexComponent } from './components/index/index.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { CustomerComponent } from './components/customer/customer.component';
-import { FactureComponent } from './components/facture/facture.component';
-import { CardsFactureComponent } from './components/cards-facture/cards-facture.component';
+import { ProfesseurComponent } from './components/professeur/professeur.component';
+import { RubriqueComponent } from './components/rubrique/rubrique.component';
+import { LaboComponent } from './components/labo/labo.component';
+import { EquipeComponent } from './components/equipe/equipe.component';
+
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { RolesComponent } from './components/roles/roles.component';
+import { ProjetRechComponent } from './components/projet-rech/projet-rech.component';
+import { ProduitComponent } from './components/produit/produit.component';
+import { CommandeComponent } from './components/commande/commande.component';
+import { MembresStructureRechComponent } from './components/membres-structure-rech/membres-structure-rech.component';
 
 
 export function kcFactory(kcSerurity:KeycloakSecurityService){
@@ -29,15 +36,19 @@ export function kcFactory(kcSerurity:KeycloakSecurityService){
 @NgModule({
   declarations: [
     AppComponent,
-    ProductsComponent,
-    SuppliersComponent,
     NavbarComponent,
     SidebarComponent,
     IndexComponent,
     ErrorPageComponent,
-    CustomerComponent,
-    FactureComponent,
-    CardsFactureComponent
+    ProfesseurComponent,
+    RubriqueComponent,
+    LaboComponent,
+    EquipeComponent,
+    RolesComponent,
+    ProjetRechComponent,
+    ProduitComponent,
+    CommandeComponent,
+    MembresStructureRechComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +56,10 @@ export function kcFactory(kcSerurity:KeycloakSecurityService){
     HttpClientModule,
     FormsModule,
     NgxUiLoaderModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    NgbModule
+
   ],
   providers: [
     { provide: APP_INITIALIZER, deps:[KeycloakSecurityService], useFactory:kcFactory, multi:true},

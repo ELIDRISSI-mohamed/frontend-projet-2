@@ -8,19 +8,17 @@ import { KeycloakSecurityService } from 'src/app/services/keycloak-security.serv
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public kcService : KeycloakSecurityService) { 
+  constructor(public kcService : KeycloakSecurityService) {
   }
 
   ngOnInit(): void {
-    
-    console.log(this.kcService.kc)
   }
 
   onLogout(){
     this.kcService.kc.logout();
   }
   onLogin(){
-    this.kcService.kc.login();
+    this.kcService.kc.login() ;
   }
   accountManage(){
     this.kcService.kc.accountManagement();

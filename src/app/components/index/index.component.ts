@@ -10,6 +10,7 @@ export class IndexComponent implements OnInit {
   constructor(public kcService:KeycloakSecurityService) { }
 
   ngOnInit(): void {
+    console.log(this.kcService);
   }
 
   Onlogin(){

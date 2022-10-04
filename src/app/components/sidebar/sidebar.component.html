@@ -14,7 +14,7 @@
     <li class="nav-item active">
         <a class="nav-link" routerLink="/">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+            <span>COMMANDES</span>
         </a>
     </li>
 
@@ -34,24 +34,39 @@
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Page Admin:</h6>
-                    <a class="collapse-item" routerLink="products">Produits</a>
-                    <a class="collapse-item" routerLink="cardsFacture">Factures</a>
+                    <a class="collapse-item" routerLink="roles">Roles</a>
+                    <a class="collapse-item" routerLink="professeurs">Professeurs</a>
+                    <a class="collapse-item" routerLink="labos">Laboratoire de recherche</a>
+                    <a class="collapse-item" routerLink="equipes">Equipe de recherche</a>
+                    <a class="collapse-item" routerLink="projetsRech">projet de recherche</a>
                 </div>
             </div>
         </li>
-        <!-- Nav Item - Pages Collapse Menu -->
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="rubriques">
+          <i class="fas fa-archive"></i>
+          <span>Rubriques</span></a>
+      </li>
         <li class="nav-item">
-            <a class="nav-link" routerLink="products">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Produits</span></a>
+            <a class="nav-link" routerLink="produits">
+              <i class="fas fa-box"></i>
+              <span>Produits</span></a>
         </li>
-        <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" routerLink="customer">
+            <a class="nav-link" routerLink="commandes">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Customer</span>
+                <span>Commandes</span>
             </a>
         </li>
+      <!-- Nav Item - Charts -->
+      <li class="nav-item" *ngIf="isResponsable()">
+        <a class="nav-link" routerLink="membresStructures">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>membres structures de recherche </span>
+        </a>
+      </li>
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
     </div>

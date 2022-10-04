@@ -1,0 +1,163 @@
+<!-- Begin Page Content -->
+<div class="container-fluid" *ngIf="kcService.kc.authenticated">
+
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">Equipes</h1>
+  <div class="card shadow mb-2">
+    <div class="card-body">
+      <div [hidden]='hideFormError' class="alert alert-danger col-md-4" role="alert">
+        {{ formMessage }}
+      </div>
+
+      <div [hidden]='hideFormOk' class="alert alert-success col-md-4" role="alert">
+        {{ formMessage }}
+      </div>
+      <form>
+
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="validationDefault01">Nom</label>
+            <input type="text" class="form-control" name="nom" id="validationDefault01" [(ngModel)]="equipe.nom" placeholder="Nom" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationDefault02">Acronyme</label>
+            <input type="text" class="form-control" name="acronyme" id="validationDefault02" [(ngModel)]="equipe.acronyme" placeholder="Acronyme" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationDefault02">Budget</label>
+            <input type="text" class="form-control" name="budget" id="validationDefault02" [(ngModel)]="equipe.budget_annuel" placeholder="Budget Annuel" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-8 mb-3">
+            <label for="validationDefault02">Membres</label>
+            <ng-multiselect-dropdown
+              name="membres"
+              [settings]="dropdownSettings"
+              [data]="profsUsername"
+              [(ngModel)]="selectedProfs"
+              (onSelect)="onItemSelect()"
+              (onSelectAll)="onSelectAll()"
+              (onDeSelect)="onItemDeSelect()"
+              (onDeSelectAll)="onUnSelectAll()">>
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationDefault02">Responsable</label>
+            <select class="form-control" name="libele" [(ngModel)]="equipe.responsable" required>
+              <option [ngValue]="p" *ngFor="let p of profs;let index=index">{{p.nom+" "+p.prenom}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="float-end">
+          <button class="btn btn-primary float-end" type="submit" (click)="onSubmit()">Submit form</button>
+          <button class="btn btn-danger mr-2 float-end" type="submit" (click)="onCancel()">Cancel</button>
+        </div>
+        <button class="btn btn-secondary float-start" type="submit" data-toggle="collapse" href="#profs" aria-expanded="false" aria-controls="collapseExample">Toutes les équipes</button>
+      </form>
+    </div>
+  </div>
+
+  <ngx-ui-loader></ngx-ui-loader>
+  <!-- DataTales Example -->
+  <div class="collapse show" id="profs">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Liste des équipe</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <div id="custom-search" class="search">
+                  <div class="search float-end">
+                    Search: <input size="22" type="text" placeholder="Search.." [(ngModel)]="search">
+                  </div>
+                </div><br>
+                <table class="table table-light table-striped">
+                  <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Acronyme</th>
+                    <th>budget_annuel</th>
+                    <th>Responsable</th>
+                    <th>Membres</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <!-- | filter:Search; let index = index;-->
+                  <tr class="border-0" *ngFor="let e of equipes | filter:search; let index=index">
+                    <td>{{e.nom}}</td>
+                    <td>{{e.acronyme}}</td>
+                    <td>{{e.budget_annuel}}</td>
+                    <td>{{e.responsable.nom}} {{e.responsable.prenom}}</td>
+                    <td><button class="btn btn-outline-primary mb-2 me-2" (click)="openXl(content, index)">
+                      Membres Informations</button>
+                    </td>
+                    <td>
+                      <button class="btn btn-outline-secondary" (click)="onEdit(e)">
+                        <img id="btn-back-to-top" src="assets/img/edit-24.svg"/>
+                      </button>
+                    </td>
+                    <td>
+                      <button class="btn btn-outline-danger" (click)="onDelete(index)">
+                        <img src="assets/img/delete.svg"  />
+                      </button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+                <ng-template #content let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title">Membres Equipe</h4>
+                    <button type="button" class="btn btn-edit btn-outline-secondary" (click)="onEditMembres();modal.close('Close click');">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                      </svg>
+                    </button>
+                    <button type="button" class="btn btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                      <table class="table">
+                    <thead>
+                    <tr>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Prenom</th>
+                      <th scope="col">Mail</th>
+                      <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let m of membresEquipe | filter:search; let index=index">
+                      <td>{{m.nom}}</td>
+                      <td>{{m.prenom}}</td>
+                      <td>{{m.mail}}</td>
+                      <td>
+                        <button class="btn btn-outline-danger" (click)="onDeleteMembre(index)">
+                          <img src="assets/img/delete.svg"  />
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.container-fluid -->

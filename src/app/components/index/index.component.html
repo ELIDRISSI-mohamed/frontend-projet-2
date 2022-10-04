@@ -3,9 +3,9 @@
     <header class="masthead bg-success p-2 text-dark bg-opacity-25 text-center">
         <div class="container d-flex align-items-center flex-column">
             <!-- Masthead Avatar Image-->
-            <img class="masthead-avatar mb-5" src="assets/img/avataaars.svg" alt="..." />
+            <img class="masthead-avatar mb-5" src="assets/img/undraw_profile_2.svg" alt="..." />
             <!-- Masthead Heading-->
-            <h1 class="masthead-heading text-uppercase mb-0" *ngIf="!kcService.kc.authenticated">Projet Systèmes Distribués</h1>
+            <h1 class="masthead-heading text-uppercase mb-0" *ngIf="!kcService.kc.authenticated">Gestion des commandes</h1>
             <h1 class="masthead-heading text-uppercase mb-0" *ngIf="kcService.kc.authenticated">Bonjour {{kcService.kc.tokenParsed.name}}</h1>
             <!-- Icon Divider-->
             <div class="divider-custom divider-light">
@@ -39,9 +39,9 @@
             <div class="row">
                 <div class="col-lg-4 ms-auto">
                     <p class="lead text-justify">
-                        L’objectif est de créer un système distribué basé sur les micro-services permettant de gérer les factures 
-                        des clients en utilisant la même architecture que vous avez déjà développé auparavant en y intégrant 
-                        un système de sécurité basé sur Keycloak, Un Bus de messagerie avec KAFKA, un service de Stream 
+                        L’objectif est de créer un système distribué basé sur les micro-services permettant de gérer les commandes
+                        en utilisant la même architecture que vous avez déjà développé auparavant en y intégrant
+                        un système de sécurité basé sur Keycloak, Un Bus de messagerie avec KAFKA, un service de Stream
                         processing avec Kafka Streams et un service de Batch Processing avec Spring Batch.
                     </p>
                 </div>

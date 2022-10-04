@@ -6,8 +6,13 @@ export const environment = {
   production: false
 };
 
-export const springUrl = "http://localhost:8085/";
-
+export const springUrl = "http://localhost:9090/";
+export const springUrlPro = "http://localhost:8081/";
+export const springUrlEqu = "http://localhost:8083/";
+export const roleResponsableStructure = [{
+                                          "id": "d9138115-bc91-44de-938f-de91d06567f2",
+                                          "name": "ROLE_RESPONSABLE_STRUCTURE"
+                                        }]
 
 /*
  * For easier debugging in development mode, you can import the following file
