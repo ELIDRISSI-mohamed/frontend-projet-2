@@ -41,7 +41,7 @@ export class ProfesseurService {
     return this.httpClient.get("http://localhost:8080/auth/admin/realms/gestion_commande/users")
   }
   public getProfByEmailKeycloak(email:any){
-    return this.httpClient.get("http://localhost:8080/auth/admin/realms/gestion_commande/users?email="+email)
+    return this.httpClient.get("http://localhost:8080/auth/admin/realms/gestion_commande/users?email="+email).toPromise();
   }
   public saveProfKeycloak(prof:ProfesseurKeycloak){
     return this.httpClient.post("http://localhost:8080/auth/admin/realms/gestion_commande/users", prof)

@@ -65,8 +65,6 @@ export class EquipeComponent implements OnInit {
       this.professeurService.getProfs()
         .subscribe(async res=>{
           this.profs = res;
-          console.log(this.profs)
-
         },err =>{
           console.log(err);
         })
@@ -91,8 +89,8 @@ export class EquipeComponent implements OnInit {
 
   async onSubmit() {
     this.equipe.membres = this.selectedProfs
-    console.log(this.equipe.responsable?.id)
     this.hideFormError = true;
+    this.hideFormOk = true;
     if(!this.equipe.nom || !this.equipe.responsable || !this.equipe.membres || !this.equipe.acronyme || !this.equipe.budget_annuel) {
       this.hideFormError = false;
       this.formMessage = "Erreur remplissez tout les champs"
@@ -105,11 +103,18 @@ export class EquipeComponent implements OnInit {
         if(res){
           this.hideFormOk = false
           this.formMessage = "BIEN AJOUTER"
+          //associe le role responsable a le prof
+          this.equipeService.addRole(this.equipe.responsable?.mail).then(res=>{
+            res.subscribe(data=> data, err=> {
+              console.log(err)
+            })
+          }).catch(err => {
+            console.log(err)
+          })
         }
       },err =>{
         this.hideFormError = false
-        this.formMessage = "ERREUR"
-        console.log(err);
+        this.formMessage = "ERROR FORM"
         return;
       })
     } else {
@@ -121,17 +126,14 @@ export class EquipeComponent implements OnInit {
         }
       },err =>{
         this.hideFormError = false
-        this.formMessage = "ERREUR"
-        console.log(err);
+        this.formMessage = "ERROR FORM"
         return;
       })
     }
-    this.equipeService.addRole(this.equipe.responsable.mail).then(res=>{
-        console.log(res)
-    }).catch(err => err)
+
 
     this.equipe = new EquipeModel();
-    this.onUnSelectAll()
+    this.selectedProfs = []
     this.ngxService.stop();
   }
 
@@ -168,7 +170,7 @@ export class EquipeComponent implements OnInit {
   onItemSelect() {
     console.log(this.selectedProfs)
   }
-  async onItemDeSelect() {
+  onItemDeSelect() {
     console.log(this.selectedProfs)
   }
   onSelectAll() {

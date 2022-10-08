@@ -39,14 +39,8 @@ export class EquipeService {
   }
   //keycloak service
   public async addRole(responsablEmail:any){
-    let idResponsable;
-    await this.professeurService.getProfByEmailKeycloak(responsablEmail).subscribe(async (res:any) =>{
-      if(res){
-        console.log(res)
-        idResponsable = res[0].id
-        console.log(idResponsable)
-      }
-    }, err => err)
-    return this.httpClient.post("http://localhost:8080/auth/admin/realms/gestion_commande/users/"+ idResponsable +"/role-mappings/realm", roleResponsableStructure)
+    const res:any = await this.httpClient.get("http://localhost:8080/auth/admin/realms/gestion_commande/users?email="+responsablEmail).toPromise();
+    return this.httpClient.post("http://localhost:8080/auth/admin/realms/gestion_commande/users/"+res[0].id+"/role-mappings/realm", roleResponsableStructure)
   }
+
 }
