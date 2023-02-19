@@ -10,8 +10,11 @@ import { LaboComponent } from "./components/labo/labo.component";
 import {RolesComponent} from "./components/roles/roles.component";
 import {ProjetRechComponent} from "./components/projet-rech/projet-rech.component";
 import {ProduitComponent} from "./components/produit/produit.component";
-import {MembresStructureRechComponent} from "./components/membres-structure-rech/membres-structure-rech.component";
-
+import { BudgetComponent } from './components/budget/budget.component';
+import { PageAdminComponent } from './components/page-admin/page-admin.component';
+import {RepartitionComponent} from "./components/repartition/repartition.component";
+import { CommandeComponent } from './components/commande/commande.component';
+import { FactureComponent } from './components/facture/facture.component';
 
 const routes : Routes = [
   {path : "", component: IndexComponent},
@@ -22,8 +25,12 @@ const routes : Routes = [
   {path : "projetsRech", component: ProjetRechComponent},
   {path : "produits", component: ProduitComponent},
   {path : "rubriques", component: RubriqueComponent},
-  {path : "membresStructures", component: MembresStructureRechComponent},
-  {path : "error", component: ErrorPageComponent}
+  {path : "budgets", component: BudgetComponent},
+  {path : "error", component: ErrorPageComponent},
+  {path : "dashbordAdmin", component: PageAdminComponent},
+  {path : "repartition", component: RepartitionComponent},
+  {path : "commandes", component: CommandeComponent},
+  {path : "factures", component: FactureComponent}
 ]
 
 @NgModule({

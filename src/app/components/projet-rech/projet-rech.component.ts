@@ -35,7 +35,6 @@ export class ProjetRechComponent implements OnInit {
   };
 
   constructor(private modalService: NgbModal, private ngxService: NgxUiLoaderService, private router: Router,public kcService: KeycloakSecurityService, private professeurService: ProfesseurService, private projetRechService: ProjetRechService) {
-
   }
 
   ngOnInit(): void {
@@ -87,9 +86,9 @@ export class ProjetRechComponent implements OnInit {
   async onSubmit() {
     this.projet.membres = this.membresSelected
     this.hideFormError = true;
-    if(!this.projet.nom || !this.projet.budget_annuel || !this.projet.membres || !this.projet.responsable) {
+    if(!this.projet.nom || !this.projet.membres || !this.projet.responsable) {
       this.hideFormError = false;
-      this.formMessage = "Erreur remplissez tout les champs"
+      this.formMessage = "Erreur remplissez tous les champs"
       return ;
     }
     this.ngxService.start();
@@ -157,7 +156,6 @@ export class ProjetRechComponent implements OnInit {
   onEdit(projet:any) {
     this.projet = projet
     this.membresSelected = projet.membres
-
   }
 
   onEditMembres() {
@@ -165,7 +163,19 @@ export class ProjetRechComponent implements OnInit {
     this.membresSelected = this.projets[this.projetIndex].membres
   }
 
-  onDeleteMembre(index:any) {
-    console.log(index)
+  onDeleteMembre(indexMember:any) {
+    console.log("on delete member ", indexMember)
+    let index=-1
+    this.projets[this.projetIndex].membres.find((member:any, i:any)=>{
+      if(member.id === this.membresProjet[indexMember].id) {
+        index=i
+        this.projets[this.projetIndex].membres.splice(index,1)
+        this.membresProjet.splice(indexMember, 1)
+      }
+    });
+    this.projetRechService.update(this.projets[this.projetIndex])
+      .subscribe(res=>{
+        console.log(res)
+      }, error => error)
   }
 }

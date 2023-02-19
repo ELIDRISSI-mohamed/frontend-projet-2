@@ -12,18 +12,18 @@ export class RubriqueService {
   constructor(private httpClient: HttpClient) { }
 
   public allRubriques() {
-    return this.httpClient.get(springUrl+"RUBRIQUE-RECH-SERVICE/rubrique/all")
+    return this.httpClient.get(springUrl+"RUBRIQUE-SERVICE/rubrique/all")
   }
   public getRubrique(id:number) {
-    return this.httpClient.get(springUrl+"RUBRIQUE-RECH-SERVICE/rubrique/rechercheById/"+id)
+    return this.httpClient.get(springUrl+"RUBRIQUE-SERVICE/rubrique/rechercheById/"+id)
   }
   public addRubrique(rubrique:RubriqueModel) {
-    return this.httpClient.post(springUrl+"RUBRIQUE-RECH-SERVICE/rubrique/add", rubrique)
+    return this.httpClient.post(springUrl+"RUBRIQUE-SERVICE/rubrique/add", rubrique)
   }
   public updateRubrique(rubrique:RubriqueModel) {
-    return this.httpClient.put(springUrl+"RUBRIQUE-RECH-SERVICE/rubrique/update", rubrique)
+    return this.httpClient.put(springUrl+"RUBRIQUE-SERVICE/rubrique/update", rubrique)
   }
   public deleteRubrique(id:number) {
-    return this.httpClient.delete(springUrl+"RUBRIQUE-RECH-SERVICE/rubrique/delete/"+ id)
+    return this.httpClient.delete(springUrl+"RUBRIQUE-SERVICE/rubrique/delete/"+ id)
   }
 }

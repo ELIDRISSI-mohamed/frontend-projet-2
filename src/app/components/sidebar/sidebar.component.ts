@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakSecurityService } from 'src/app/services/keycloak-security.service';
-
+import { Globals } from 'src/app/utils/Globas';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,16 +9,11 @@ import { KeycloakSecurityService } from 'src/app/services/keycloak-security.serv
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(public kcService : KeycloakSecurityService) { }
+  constructor(public kcService : KeycloakSecurityService, public globals: Globals) { }
 
   ngOnInit(): void {
 
   }
 
-  isAdmin(){
-    return this.kcService.kc.hasRealmRole('ROLE_ADMIN');
-  }
-  isResponsable(){
-    return this.kcService.kc.hasRealmRole('ROLE_RESPONSABLE');
-  }
+  
 }

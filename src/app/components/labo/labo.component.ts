@@ -59,8 +59,6 @@ export class LaboComponent implements OnInit {
       this.professeurService.getProfs()
         .subscribe(async res=>{
           this.profs = res;
-          console.log(this.profs)
-
         },err =>{
           console.log(err);
         })
@@ -106,31 +104,38 @@ export class LaboComponent implements OnInit {
 
   onSubmit() {
     this.hideFormError = true;
-    if(!this.labo.intitule || !this.labo.acronyme || !this.equipesSelected || !this.labo.budget_annuel || !this.membresSelected || !this.labo.responsable) {
+    if(!this.labo.intitule || !this.labo.acronyme || !this.equipesSelected || !this.membresSelected || !this.labo.responsable) {
       this.hideFormError = false;
-      this.formMessage = "Erreur remplissez tout les champs"
+      this.formMessage = "Erreur remplissez tous les champs"
       return ;
     }
     this.labo.membres = this.membresSelected
-    this.labo.equipe = this.equipesSelected
+    this.labo.equipes = this.equipesSelected
 
     this.ngxService.start();
     if(!this.labo.id) {
+      //add 
       console.log("add Labo")
-      this.hideFormOk = false;
-      this.formMessage = "Bien Ajouter"
+      console.log(this.labo)
       this.laboService.addLabo(this.labo).subscribe(res=>{
-          console.log(res)
-        }, error => error)
+        this.hideFormOk = false;
+        this.formMessage = "Bien Ajouter"
+        //associe le role responsable a le prof
+        this.equipeService.addRole(this.labo.responsable?.mail).then(res=>{
+          res.subscribe(data=> data, err=> {
+            console.log(err)
+          })
+        })
+        this.labo = new LaboModel();
+      }, error => error)
     } else {
-      console.log("Modification");
-      this.hideFormOk = false;
-      this.formMessage = "Bien Modifier"
+      // update bloc
       this.laboService.updateLabo(this.labo).subscribe(res=>{
-        console.log(res)
+        this.hideFormOk = false;
+        this.formMessage = "Bien Modifier"
+        this.labo = new LaboModel();
       }, error => error)
     }
-    this.labo = new LaboModel();
     this.membresSelected=[]
     this.equipesSelected=[]
     this.ngxService.stop();
@@ -145,13 +150,13 @@ export class LaboComponent implements OnInit {
   onEdit() {
     this.labo = this.labos[this.laboIndex]
     this.membresSelected = this.labo.membres
-    this.equipesSelected = this.labo.equipe
+    this.equipesSelected = this.labo.equipes
   }
 
   onEditLabo(index:any) {
     this.labo = this.labos[index]
     this.membresSelected = this.labo.membres
-    this.equipesSelected = this.labo.equipe
+    this.equipesSelected = this.labo.equipes
   }
 
   onDeleteLabo(index:any) {
@@ -208,10 +213,10 @@ export class LaboComponent implements OnInit {
   onDeleteEquipe(equipeIndex:any) {
     console.log("on delete equipe ", equipeIndex)
     let index=-1
-    this.equipes[this.laboIndex].equipe.find((equipe:any, i:any)=>{
+    this.labos[this.laboIndex].equipes.find((equipe:any, i:any)=>{
       if(equipe.id === this.equipesLabo[equipeIndex].id) {
         index=i
-        this.equipes[this.laboIndex].equipe.splice(index,1)
+        this.labos[this.laboIndex].equipes.splice(index,1)
         this.equipesLabo.splice(equipeIndex, 1)
       }
     });

@@ -39,7 +39,7 @@ export class EquipeComponent implements OnInit {
 
   dropdownSettings:any;
 
-  constructor(private modalService: NgbModal, private globals: Globals, private router: Router, private ngxService: NgxUiLoaderService, private equipeService: EquipeService, private professeurService: ProfesseurService, public kcService : KeycloakSecurityService) {
+  constructor(private globas: Globals,private modalService: NgbModal, private globals: Globals, private router: Router, private ngxService: NgxUiLoaderService, private equipeService: EquipeService, private professeurService: ProfesseurService, public kcService : KeycloakSecurityService) {
   }
 
 
@@ -61,23 +61,24 @@ export class EquipeComponent implements OnInit {
     };
 
     if(this.kcService.kc.authenticated){
-      if(!this.isAdmin())  this.router.navigate(['/error'])
+      if(!this.globals.isAdmin())  this.router.navigate(['/error'])
       this.professeurService.getProfs()
-        .subscribe(async res=>{
+        .subscribe(res=>{
           this.profs = res;
         },err =>{
           console.log(err);
         })
       //Get all equipes
       this.equipeService.allEquipes()
-        .subscribe(async res=>{
+        .subscribe(res=>{
           this.equipes = res;
+          console.log(res)
         },err =>{
           console.log(err);
         })
       //Get all username
       this.professeurService.getUsernameProfs()
-        .subscribe(async res=>{
+        .subscribe(res=>{
           this.profsUsername = res;
         },err =>{
           console.log(err);
@@ -91,7 +92,7 @@ export class EquipeComponent implements OnInit {
     this.equipe.membres = this.selectedProfs
     this.hideFormError = true;
     this.hideFormOk = true;
-    if(!this.equipe.nom || !this.equipe.responsable || !this.equipe.membres || !this.equipe.acronyme || !this.equipe.budget_annuel) {
+    if(!this.equipe.nom || !this.equipe.responsable || !this.equipe.membres || !this.equipe.acronyme) {
       this.hideFormError = false;
       this.formMessage = "Erreur remplissez tout les champs"
       return ;
@@ -111,6 +112,7 @@ export class EquipeComponent implements OnInit {
           }).catch(err => {
             console.log(err)
           })
+          this.equipe = new EquipeModel();
         }
       },err =>{
         this.hideFormError = false
@@ -123,6 +125,7 @@ export class EquipeComponent implements OnInit {
         if(res){
           this.hideFormOk = false
           this.formMessage = "BIEN"
+          this.equipe = new EquipeModel();
         }
       },err =>{
         this.hideFormError = false
@@ -130,9 +133,6 @@ export class EquipeComponent implements OnInit {
         return;
       })
     }
-
-
-    this.equipe = new EquipeModel();
     this.selectedProfs = []
     this.ngxService.stop();
   }
@@ -143,7 +143,7 @@ export class EquipeComponent implements OnInit {
     this.membres = [];
   }
 
-  onDelete(index:any){
+  onDeleteEuipe(index:any){
     this.ngxService.start();
     this.equipeService.delete(this.equipes[index].id).subscribe(res=>{
       console.log(res)
@@ -161,10 +161,6 @@ export class EquipeComponent implements OnInit {
   onEditMembres(){
     this.equipe = this.equipes[this.equipeIndex]
     this.selectedProfs = this.equipes[this.equipeIndex].membres
-  }
-
-  isAdmin(){
-    return this.kcService.kc.hasRealmRole('ROLE_ADMIN')
   }
 
   onItemSelect() {
@@ -195,5 +191,16 @@ export class EquipeComponent implements OnInit {
       }, error => error)
   }
 
+  openDialogDeleteEquipe(index:number) {
+    if(confirm("Are you sure to delete "+this.equipes[index].nom)) {
+      this.onDeleteEuipe(index)
+    }
+  } 
+
+  openDialogDeleteMember(memberIndex:number) {
+    if(confirm("Are you sure to delete member")) {
+      this.onDeleteMembre(memberIndex)
+    }
+  } 
 
 }

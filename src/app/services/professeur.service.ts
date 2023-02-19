@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {KeycloakSecurityService} from "./keycloak-security.service";
-import {springUrl} from "../../environments/environment";
+import {roleProf, springUrl} from "../../environments/environment";
 import {ProfesseurModel} from "../components/professeur/ProfesseurModel";
 import {ProfesseurKeycloak} from "../components/professeur/ProfesseurKeycloak";
 
@@ -35,6 +35,15 @@ export class ProfesseurService {
   }
   public deleteProf(index:any){
     return this.httpClient.delete(springUrl+"PROFESSEUR-SERVICE/professeur/delete/"+index)
+  }
+  
+  //keycloak service
+  public async addRole(emailProf:any){
+    //const res:any = await this.httpClient.get("http://localhost:8080/auth/admin/realms/gestion_commande/users?email="+emailProf).toPromise(); 
+    const res:any = await this.getProfByEmailKeycloak(emailProf);   
+    return this.httpClient.post("http://localhost:8080/auth/admin/realms/gestion_commande/users/"+res[0].id+"/role-mappings/realm", [{
+      "id":"7abeb814-9bc8-4037-a91e-7fbd3e4f7043",
+      "name":"ROLE_PROF"}]).toPromise();
   }
   //keycloak api
   public getProfsKeycloak(){

@@ -7,13 +7,16 @@ export const environment = {
 };
 
 export const springUrl = "http://localhost:9090/";
-export const springUrlPro = "http://localhost:8081/";
-export const springUrlEqu = "http://localhost:8083/";
-export const roleResponsableStructure = [{
-              "id": "d9138115-bc91-44de-938f-de91d06567f2",
-              "name": "ROLE_RESPONSABLE_STRUCTURE"
-            }]
+export const tomcatUrl = "http://localhost:8200/";
 
+export const roleResponsableStructure = [{
+  "id": "ae0d7859-0f17-4bcd-9663-5dd9146695ec",
+  "name": "ROLE_RESPONSABLE_STRUCTURE"
+}]
+export const roleProf = [{
+  "id": "7abeb814-9bc8-4037-a91e-7fbd3e4f7043",
+  "name": "ROLE_PROF"
+}]
 
 /*
  * For easier debugging in development mode, you can import the following file

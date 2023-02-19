@@ -1,10 +1,16 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" routerLink="/">
+    <a class="sidebar-brand d-flex align-items-center" *ngIf="globals.isAdmin()" routerLink="dashbordAdmin">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">Admin</div>
+    </a>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" *ngIf="!globals.isAdmin()" routerLink="/">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Utilisateur</div>
     </a>
 
     <!-- Divider -->
@@ -26,7 +32,7 @@
         <div class="sidebar-heading">
             Interface
         </div>
-        <li class="nav-item" *ngIf="isAdmin()">
+        <li class="nav-item" *ngIf="globals.isAdmin()">
             <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Admin</span>
@@ -38,21 +44,33 @@
                     <a class="collapse-item" routerLink="professeurs">Professeurs</a>
                     <a class="collapse-item" routerLink="labos">Laboratoire de recherche</a>
                     <a class="collapse-item" routerLink="equipes">Equipe de recherche</a>
-                    <a class="collapse-item" routerLink="projetsRech">projet de recherche</a>
+                    <a class="collapse-item" routerLink="projetsRech">Projet de recherche</a>
                 </div>
             </div>
         </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link" routerLink="rubriques">
-          <i class="fas fa-archive"></i>
-          <span>Rubriques</span></a>
-      </li>
+        <li class="nav-item" *ngIf="globals.isResponsable() || globals.isAdmin()">
+            <a class="nav-link" routerLink="budgets">
+            <i class="fas fa-archive"></i>
+            <span>Budgets</span></a>
+        </li>
         <li class="nav-item">
+            <a class="nav-link" routerLink="rubriques">
+            <i class="fas fa-archive"></i>
+            <span>Rubriques</span></a>
+        </li>
+        <li class="nav-item" *ngIf="globals.isResponsable() || globals.isAdmin() || globals.isMembreStructure()">
             <a class="nav-link" routerLink="produits">
               <i class="fas fa-box"></i>
               <span>Produits</span></a>
+        </li>
+        <!-- Nav Item - Charts -->
+        <li class="nav-item" *ngIf="globals.isResponsable() || globals.isAdmin() || globals.isMembreStructure()">
+          <a class="nav-link" routerLink="repartition">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Repartition</span>
+          </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" routerLink="commandes">
@@ -60,13 +78,6 @@
                 <span>Commandes</span>
             </a>
         </li>
-      <!-- Nav Item - Charts -->
-      <li class="nav-item" *ngIf="isResponsable()">
-        <a class="nav-link" routerLink="membresStructures">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>membres structures de recherche </span>
-        </a>
-      </li>
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
     </div>

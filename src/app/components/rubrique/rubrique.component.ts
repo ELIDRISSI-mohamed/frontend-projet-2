@@ -39,10 +39,11 @@ export class RubriqueComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.rubrique)
     this.hideFormError = true;
     if(!this.rubrique.nom ) {
       this.hideFormError = false;
-      this.formMessage = "Erreur remplissez tout les champs"
+      this.formMessage = "Erreur remplissez tous les champs"
       return ;
     }
     this.ngxService.start();
@@ -53,15 +54,18 @@ export class RubriqueComponent implements OnInit {
           console.log(res)
           this.hideFormOk = false
           this.formMessage = "BIEN AJOUTER"
+          this.rubrique = new RubriqueModel()
         }
       }, error => error)
     } else {
       console.log("update")
       this.rubriqueService.updateRubrique(this.rubrique).subscribe(res =>{
         console.log(res)
+        this.hideFormOk = false
+        this.formMessage = "BIEN MODIFIER"
+        this.rubrique = new RubriqueModel()
       }, error => error)
     }
-    this.rubrique = new RoleModel()
     this.ngxService.stop();
   }
 
@@ -83,5 +87,10 @@ export class RubriqueComponent implements OnInit {
   onEdit(rub: any) {
     this.rubrique = rub
   }
-
+  
+  openDialogDelete(index:number) {
+    if(confirm("Are you sure to delete "+this.rubriques[index].nom)) {
+      this.onDelete(index)
+    }
+  } 
 }

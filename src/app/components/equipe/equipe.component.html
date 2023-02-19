@@ -25,7 +25,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="validationDefault02">Budget</label>
-            <input type="text" class="form-control" name="budget" id="validationDefault02" [(ngModel)]="equipe.budget_annuel" placeholder="Budget Annuel" required>
+            <input type="text" class="form-control" name="budget" id="validationDefault02" [(ngModel)]="equipe.budget_annuel" placeholder="Budget Annuel" disabled>
           </div>
         </div>
         <div class="form-row">
@@ -44,7 +44,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="validationDefault02">Responsable</label>
-            <select class="form-control" name="libele" [(ngModel)]="equipe.responsable" required>
+            <select class="form-control" name="responsable" [(ngModel)]="equipe.responsable" required>
               <option [ngValue]="p" *ngFor="let p of profs;let index=index">{{p.nom+" "+p.prenom}}</option>
             </select>
           </div>
@@ -101,7 +101,7 @@
                       </button>
                     </td>
                     <td>
-                      <button class="btn btn-outline-danger" (click)="onDelete(index)">
+                      <button class="btn btn-outline-danger" (click)="openDialogDeleteEquipe(index)">
                         <img src="assets/img/delete.svg"  />
                       </button>
                     </td>
@@ -138,7 +138,7 @@
                       <td>{{m.prenom}}</td>
                       <td>{{m.mail}}</td>
                       <td>
-                        <button class="btn btn-outline-danger" (click)="onDeleteMembre(index)">
+                        <button class="btn btn-outline-danger" (click)="openDialogDeleteMember(index)">
                           <img src="assets/img/delete.svg"  />
                         </button>
                       </td>

@@ -1,0 +1,49 @@
+<div class="container-fluid" *ngIf="kcService.kc.authenticated">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Facture</h6>
+        </div>
+        <div class="card-body" id="htmlData" #htmlData>
+            <div class="table-responsive"  >
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div id="custom-search" class="search">
+                                <div class="search float-">
+                                    Bienvenue<b> {{kcService.kc.tokenParsed.name}}</b>
+                                </div>
+                            </div>
+                            <br>
+                            <table class="table table-light table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="border-0">Produit</th>
+                                    <th class="border-0">Qte Damandé</th>
+                                    <th class="border-0">Prix unitaire</th>
+                                    <th class="border-0">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- | filter:Search; let index = index; -->
+                                <tr class="border-0" *ngFor="let p of commandeParsed.produits let index = index;">
+                                    <td>{{ p.nom }}</td>
+                                    <td>{{ p.qteDemande }}</td>
+                                    <td>{{ p.prix }}</td>
+                                    <td>{{ p.prix*p.qteDemande }}</td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                        <div class="float-end">
+                            <h5 *ngIf="prixTotal != 0">Total : {{prixTotal | number}}</h5>
+                            <h5 *ngIf="prixTotal == 0">Total : {{commandeParsed.prixTotal | number}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body float-end">
+            <button class="btn btn-primary float-end" type="submit" (click)="makePdf()">Imprimer</button>
+        </div>
+    </div>
+</div>

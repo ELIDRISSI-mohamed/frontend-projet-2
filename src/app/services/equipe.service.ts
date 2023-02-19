@@ -40,6 +40,7 @@ export class EquipeService {
   //keycloak service
   public async addRole(responsablEmail:any){
     const res:any = await this.httpClient.get("http://localhost:8080/auth/admin/realms/gestion_commande/users?email="+responsablEmail).toPromise();
+    console.log(res)
     return this.httpClient.post("http://localhost:8080/auth/admin/realms/gestion_commande/users/"+res[0].id+"/role-mappings/realm", roleResponsableStructure)
   }
 

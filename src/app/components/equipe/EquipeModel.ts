@@ -16,7 +16,7 @@ export class EquipeModel {
     this.acronyme = acronyme;
     this.responsable = responsable;
     this.membres = membres;
-    this.budget_annuel = budget_annuel;
+    this.budget_annuel = 0;
   }
 
 }

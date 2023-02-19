@@ -24,18 +24,19 @@ export class ProduitComponent implements OnInit {
   produits: any;
   rubriques: any;
 
-  constructor(private rubriqueService: RubriqueService,private produitService: ProduitService, private router: Router, private ngxService: NgxUiLoaderService, public kcService : KeycloakSecurityService) {
+  constructor(private globas: Globals,private rubriqueService: RubriqueService,private produitService: ProduitService, private router: Router, private ngxService: NgxUiLoaderService, public kcService : KeycloakSecurityService) {
 
   }
 
   ngOnInit(): void {
     if(this.kcService.kc.authenticated){
-      console.log(this.isAdmin())
+      if(!this.globas.isResponsable() && !this.globas.isAdmin())  this.router.navigate(['/error'])
       // all produit
       this.produitService.allProduits().subscribe(res=>{
         this.produits = res
+        console.log(this.produits)
       }, error => error)
-      // all produit
+      // all rub
       this.rubriqueService.allRubriques().subscribe(res=>{
         this.rubriques = res
       }, error => error)
@@ -44,16 +45,12 @@ export class ProduitComponent implements OnInit {
     }
   }
 
-  isAdmin(){
-    console.log(this.kcService.kc.hasRealmRole('ROLE_ADMIN'))
-    return this.kcService.kc.hasRealmRole('ROLE_ADMIN') || this.kcService.kc.hasRealmRole('ADMIN')
-  }
-
   onSubmit(){
+    console.log(this.produit)
     this.hideFormError = true;
-    if(!this.produit.nom || !this.produit.description || !this.produit.rubrique) {
+    if(!this.produit.nom || !this.produit.description || !this.produit.rubrique || !this.produit.qte || !this.produit.prix) {
       this.hideFormError = false;
-      this.formMessage = "Erreur remplissez tout les champs"
+      this.formMessage = "Erreur remplissez tous les champs"
       return ;
     }
     this.ngxService.start();
@@ -103,4 +100,10 @@ export class ProduitComponent implements OnInit {
       this.produits.splice(index, 1)
     }, error => error)
   }
+
+  openDialogDelete(index:number) {
+    if(confirm("Are you sure to delete "+this.produits[index].nom)) {
+      this.onDeleteProduit(index)
+    }
+  } 
 }

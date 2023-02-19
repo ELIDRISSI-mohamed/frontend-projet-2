@@ -1,0 +1,132 @@
+<!-- Begin Page Content -->
+<div class="container-fluid" *ngIf="kcService.kc.authenticated">
+
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">Professeurs</h1>
+  <div class="card shadow mb-2">
+    <div class="card-body">
+      <div [hidden]='hideFormError' class="alert alert-danger col-md-4" role="alert">
+        {{ formMessage }}
+      </div>
+
+      <div [hidden]='hideFormOk' class="alert alert-success col-md-4" role="alert">
+        {{ formMessage }}
+      </div>
+      <form>
+
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="validationDefault02">Nom repartition</label>
+            <input type="text" class="form-control" name="nomRep" id="validationDefault02" [(ngModel)]="rep.nom" placeholder="Nom" required>
+          </div>
+          <!-- Choix de budget -->
+          <div class="col-md-4 mb-3">
+            <label for="validationDefault02">Budget Name</label>
+            <select class="form-control" name="budget" (change)="onChangeBudget($event)" required>
+              <option></option>
+              <option [value]="budget.id" *ngFor="let budget of budgets; let index=index">{{budget.nom}}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationDefault02">Valeur</label>
+            <input type="text" class="form-control" name="budget" id="validationDefault03" [(ngModel)]="budget.budget" placeholder="Budget" disabled>
+          </div>
+          <!-- type de structure -->
+          <div class="col-md-6 mb-3">
+            <label for="validationDefault02">Structures</label>
+            <select class="form-control" name="Structures" (change)="onChangeStructure($event)" required>
+              <option [value]="ele" *ngFor="let ele of listForm;let index=index">{{ele}}</option>
+            </select>
+          </div>
+          <!-- ele de structure -->
+          <div class="col-md-6 mb-3" *ngIf="valueSelected=='Laboratoire-Recherche'">
+            <label for="validationDefault02">Elements de structure</label>
+            <select class="form-control" name="structure" [(ngModel)]="structure" required>
+              <option></option>
+              <option [ngValue]="ele" *ngFor="let ele of data; let index=index">{{ele.intitule}}</option>
+            </select>
+          </div>
+          <!-- ele de structure -->
+          <div class="col-md-6 mb-3" *ngIf="valueSelected!='Laboratoire-Recherche'">
+            <label for="validationDefault02">Elements de structure</label>
+            <select class="form-control" name="structure" [(ngModel)]="structure" required>
+              <option></option>
+              <option [ngValue]="ele" *ngFor="let ele of data; let index=index">{{ele.nom}}</option>
+            </select>
+          </div>
+          <!-- Pourcentage -->
+          <div class="col-md-6 mb-3">
+            <label for="validationDefault02">Pourcntage (%)</label>
+            <input type="number" class="form-control" name="pourcentage" id="validationDefault01" [(ngModel)]="pourcentage" (ngModelChange)="onChangePourcenatge($event)" min="1" max="100" placeholder="Pourcentage" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationDefault02">Sous-Budget</label>
+            <input type="text" class="form-control" name="sous-budget" id="validationDefault01" [(ngModel)]="rep.sousBudget" (ngModelChange)="onChangeSousBudget($event)" placeholder="Sous-Budget" required>
+          </div>
+        </div>
+
+        <div class="float-end">
+          <button class="btn btn-success float-end" type="submit" (click)="onSubmit()">Submit</button>
+          <button class="btn btn-danger mr-2 float-end" type="submit" (click)="onCancel()">Cancel</button>
+        </div>
+        <button class="btn btn-secondary float-start" type="submit" data-toggle="collapse" href="#profs" aria-expanded="false" aria-controls="collapseExample">Tous les professeurs</button>
+
+      </form>
+    </div>
+  </div>
+
+  <ngx-ui-loader></ngx-ui-loader>
+  <!-- DataTales Example -->
+  <div class="collapse show" id="profs">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Liste des repartitions</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <div id="custom-search" class="search">
+                  <div class="search float-end">
+                    Search: <input size="22" type="text" placeholder="Search.." [(ngModel)]="search">
+                  </div>
+                </div><br>
+                <table class="table table-light table-striped">
+                  <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Budget</th>
+                    <th>Type_Structure</th>
+                    <th>Nom_Structure</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <tr class="border-0" *ngFor="let repartition of repartitions | filter:search; let index=index">
+                    <td>{{repartition.nom}}</td>
+                    <td>{{repartition.idBudget}}</td>
+                    <td>{{repartition.typeStructure}}</td>
+                    <td>{{repartition.idStructure}}</td>
+                    <td>
+                      <button class="btn btn-outline-success" (click)="onEdit(repartition)">
+                        <img id="btn-back-to-top" src="assets/img/edit-24.svg"/>
+                      </button>
+                    </td>
+                    <td>
+                      <button class="btn btn-outline-danger" (click)="onDelete(index)">
+                        <img src="assets/img/delete.svg"  />
+                      </button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.container-fluid -->

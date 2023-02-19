@@ -9,15 +9,15 @@ export class LaboModel {
   public responsable?: ProfesseurModel;
   public membres?: Array<ProfesseurModel>;
   public budget_annuel?: number;
-  public equipe?: Array<EquipeModel>;
+  public equipes?: Array<EquipeModel>;
 
-  constructor(id?: number, intitule?: string, acronyme?: string, responsable?: ProfesseurModel, membres?: Array<ProfesseurModel>, budget_annuel?: number, equipe?: Array<EquipeModel>) {
+  constructor(id?: number, intitule?: string, acronyme?: string, responsable?: ProfesseurModel, membres?: Array<ProfesseurModel>, budget_annuel?: number, equipes?: Array<EquipeModel>) {
     this.id = id;
     this.intitule = intitule;
     this.acronyme = acronyme;
     this.responsable = responsable;
     this.membres = membres;
-    this.budget_annuel = budget_annuel;
-    this.equipe = equipe;
+    this.budget_annuel = 0;
+    this.equipes = equipes;
   }
 }

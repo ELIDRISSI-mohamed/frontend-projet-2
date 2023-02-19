@@ -26,6 +26,16 @@
         </div>
         <div class="form-row">
           <div class="col-md-6 mb-3">
+            <label for="validationDefault02">Prix</label>
+            <input type="number" class="form-control" name="Prix" id="validationDefault02" [(ngModel)]="produit.prix" placeholder="Prix" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="validationDefault02">Qte</label>
+            <input type="number" class="form-control" name="Qte" id="validationDefault02" [(ngModel)]="produit.qte" placeholder="Qte" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
             <label for="validationDefault02">Rubrique</label>
             <select class="form-control" name="rubrique" [(ngModel)]="produit.rubrique" required>
               <option [ngValue]="rub" *ngFor="let rub of rubriques;let index=index">{{rub.nom}}</option>
@@ -36,7 +46,7 @@
           <button class="btn btn-primary float-end" type="submit" (click)="onSubmit()">Submit form</button>
           <button class="btn btn-danger mr-2 float-end" type="submit" (click)="onCancel()">Cancel</button>
         </div>
-        <button class="btn btn-secondary float-start" type="submit" data-toggle="collapse" href="#profs" aria-expanded="false" aria-controls="collapseExample">Tous les produits</button>
+        <button class="btn btn-secondary float-start" type="submit" data-toggle="collapse" href="#produits" aria-expanded="false" aria-controls="collapseExample">Tous les produits</button>
 
       </form>
     </div>
@@ -44,7 +54,7 @@
 
   <ngx-ui-loader></ngx-ui-loader>
   <!-- DataTales Example -->
-  <div class="collapse show" id="profs">
+  <div class="collapse show" id="produits">
     <div class="card shadow mb-4">
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Liste des produits</h6>
@@ -64,7 +74,9 @@
                   <tr>
                     <th>Nom</th>
                     <th>Description</th>
-                    <th>Rubrique Name</th>
+                    <th>Rubrique</th>
+                    <th>Qte</th>
+                    <th>Prix</th>
                     <th></th>
                     <th></th>
                   </tr>
@@ -75,13 +87,15 @@
                     <td>{{p.nom}}</td>
                     <td>{{p.description}}</td>
                     <td>{{p.rubrique.nom}}</td>
+                    <td>{{p.qte}}</td>
+                    <td>{{p.prix}}</td>
                     <td>
                       <button class="btn btn-outline-secondary" (click)="onSelectProduit(p)">
                         <img id="btn-back-to-top" src="assets/img/edit-24.svg" />
                       </button>
                     </td>
                     <td>
-                      <button class="btn btn-outline-danger" (click)="onDeleteProduit(index)">
+                      <button class="btn btn-outline-danger" (click)="openDialogDelete(index)">
                         <img src="assets/img/delete.svg" />
                       </button>
                     </td>

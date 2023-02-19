@@ -25,12 +25,11 @@ export class ProfesseurComponent implements OnInit {
   profKey = new ProfesseurKeycloak();
 
   constructor(private globals: Globals, private router: Router, private ngxService: NgxUiLoaderService, private professeurService: ProfesseurService, public kcService : KeycloakSecurityService) {
-
   }
 
   ngOnInit(): void {
     if(this.kcService.kc.authenticated){
-      if(!this.isAdmin())  this.router.navigate(['/error'])
+      if(!this.globals.isAdmin())  this.router.navigate(['/error'])
 
       this.professeurService.getProfs()
         .subscribe(async res=>{
@@ -55,7 +54,7 @@ export class ProfesseurComponent implements OnInit {
     this.hideFormError = true;
     if(!this.p.nom || !this.p.prenom || !this.p.mail) {
       this.hideFormError = false;
-      this.formMessage = "Erreur remplissez tout les champs"
+      this.formMessage = "Erreur remplissez tous les champs"
       return ;
     }
     this.ngxService.start();
@@ -67,11 +66,14 @@ export class ProfesseurComponent implements OnInit {
           this.hideFormOk = false
           this.formMessage = "BIEN AJOUTER"
           // Add to keycloak
-          await this.professeurService.saveProfKeycloak(this.profKey).subscribe(res=>{
-        }, err=> {
-            console.log(err)
-            return;
-        })
+          await this.professeurService.saveProfKeycloak(this.profKey).subscribe(async res=>{
+            //assign role
+            const resp = await this.professeurService.addRole(this.profKey.email)
+            console.log(resp)
+          }, err=> {
+              console.log(err)
+              return;
+          })
       }
     },err =>{
       this.hideFormError = false
@@ -112,39 +114,13 @@ export class ProfesseurComponent implements OnInit {
         this.profs.splice(index, 1);
       }, err => err)
     }, err => err)
-    /*this.ngxService.start();
-    this.professeurService.deleteProf(this.profs[index].id).subscribe(async res=>{
-      const result = await this.profsKeycloak.map((pr:any) => {
-        if(pr.email==this.profs[index].mail) return pr;
-      });
-      console.log(result[0])
-    },err =>{
-      console.log(err);
-    })
-    if (index !== -1) {
-      this.profs.splice(index, 1);
-    }
-    this.ngxService.stop();*/
+    
     this.ngxService.stop();
   }
-  /*onDeleteProduit(index:any){
-    console.log("delete");
-    this.ngxService.start();
-    this.productsService.deleteProduct(this.products[index].id).subscribe(res=>{
-      console.log(res)
-    },err =>{
-      console.log(err);
-    })
-    if (index !== -1) {
-      this.products.splice(index, 1);
+  
+  openDialogDelete(index:number) {
+    if(confirm("Are you sure to delete "+this.profs[index].nom+"_"+this.profs[index].nom)) {
+      this.onDeleteProf(index)
     }
-    this.ngxService.stop();
-  }
-  isProudctManager(){
-    return this.kcService.kc.hasRealmRole('ROLE_PRODUCT_MANAGER')
-  }*/
-  isAdmin(){
-    console.log(this.kcService.kc.hasRealmRole('ROLE_ADMIN'))
-    return this.kcService.kc.hasRealmRole('ROLE_ADMIN')
-  }
+  } 
 }

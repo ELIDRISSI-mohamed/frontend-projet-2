@@ -26,7 +26,11 @@ import { RolesComponent } from './components/roles/roles.component';
 import { ProjetRechComponent } from './components/projet-rech/projet-rech.component';
 import { ProduitComponent } from './components/produit/produit.component';
 import { CommandeComponent } from './components/commande/commande.component';
-import { MembresStructureRechComponent } from './components/membres-structure-rech/membres-structure-rech.component';
+import { BudgetComponent } from './components/budget/budget.component';
+import { PageAdminComponent } from './components/page-admin/page-admin.component';
+import {NgChartsModule} from "ng2-charts";
+import { RepartitionComponent } from './components/repartition/repartition.component';
+import { FactureComponent } from './components/facture/facture.component';
 
 
 export function kcFactory(kcSerurity:KeycloakSecurityService){
@@ -48,7 +52,10 @@ export function kcFactory(kcSerurity:KeycloakSecurityService){
     ProjetRechComponent,
     ProduitComponent,
     CommandeComponent,
-    MembresStructureRechComponent
+    BudgetComponent,
+    PageAdminComponent,
+    RepartitionComponent,
+    FactureComponent
   ],
   imports: [
     BrowserModule,
@@ -58,8 +65,8 @@ export function kcFactory(kcSerurity:KeycloakSecurityService){
     NgxUiLoaderModule,
     Ng2SearchPipeModule,
     NgMultiSelectDropDownModule.forRoot(),
-    NgbModule
-
+    NgbModule,
+    NgChartsModule
   ],
   providers: [
     { provide: APP_INITIALIZER, deps:[KeycloakSecurityService], useFactory:kcFactory, multi:true},
